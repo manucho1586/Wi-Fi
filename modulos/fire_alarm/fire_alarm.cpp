@@ -7,7 +7,7 @@
 
 //=====[Declaration of private defines]========================================
 
-#define TEMPERATURE_C_LIMIT_ALARM               50.0
+#define TEMPERATURE_C_LIMIT_ALARM               25.0
 
 //=====[Declaration of private data types]=====================================
 

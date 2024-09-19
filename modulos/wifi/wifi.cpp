@@ -11,8 +11,9 @@
 
 //=====[Declaration of private defines]========================================
 
-#define DELAY_10_SECONDS        10000
-#define DELAY_5_SECONDS         5000
+#define DELAY_10_SECONDS        4000
+#define DELAY_5_SECONDS         2000
+#define DELAY_15_SECONDS        30000
 
 #define BEGIN_USER_LINE   "<p>"
 #define END_USER_LINE     "</p>"
@@ -73,7 +74,7 @@ static const char responseStatus3[] = "STATUS:3";
 static const char responseCipstatus[] = "+CIPSTATUS:";
 static const char responseSendOk[] = "SEND OK";
 static const char responseCipclose[] = "CLOSED";
-DigitalOut verif(D5);
+DigitalOut verif(D7);
 
 static int currentConnectionId;
 static char wifiComApSsid[AP_SSID_MAX_LENGTH] = "";
@@ -88,15 +89,15 @@ static nonBlockingDelay_t wifiComDelay;
 
 static const char htmlCodeHeader [] =
    "<!doctype html>"
-   "<html> <head> <title>Smart Home System</title> </head>"
+   "<html> <head> <title>Sistema de control de invernadero</title> </head>"
    "<body style=\"text-align: center;\">"
-   "<h1 style=\"color: #0000ff;\">Smart Home System</h1>"
+   "<h1 style=\"color: #0000ff;\">Sistema de control de invernadero</h1>"
    "<div style=\"font-weight: bold\">"
    ;
 
 static const char htmlCodeFooter [] = "</div> </body> </html>";
 
-static char htmlCodeBody[200] = "";
+static char htmlCodeBody[450] = "";
 
 //=====[Declarations (prototypes) of private functions]========================
 
@@ -214,9 +215,9 @@ void wifiComUpdate()
       case WIFI_STATE_SEND_CWJAP_SET:
          if (nonBlockingDelayRead(&wifiComDelay)) {
             wifiComStringWrite( "AT+CWJAP=\"" );
-            wifiComStringWrite( "Hector45");
+            wifiComStringWrite( "Red_INVITADOS");
             wifiComStringWrite( "\",\"" );
-            wifiComStringWrite( "algo12345");
+            wifiComStringWrite( "1nVit4d0ss");
             wifiComStringWrite( "\"" );
             wifiComStringWrite( "\r\n" );
             wifiComExpectedResponse = responseCwjap1;
@@ -405,7 +406,7 @@ void wifiComUpdate()
 
       case WIFI_STATE_WAIT_CIPSEND:
          if (isExpectedResponse()) {
-            nonBlockingDelayWrite(&wifiComDelay, DELAY_5_SECONDS);
+            nonBlockingDelayWrite(&wifiComDelay, DELAY_15_SECONDS);  //DELAY_15_SECONDS
             wifiComState = WIFI_STATE_SEND_HTML;
          }
          if (nonBlockingDelayRead(&wifiComDelay)) {
@@ -423,14 +424,17 @@ void wifiComUpdate()
       break;
 
       case WIFI_STATE_WAIT_HTML:
-         if (isExpectedResponse()) {
+         if (isExpectedResponse()) 
+         {
             nonBlockingDelayWrite(&wifiComDelay, DELAY_5_SECONDS);
             wifiComState = WIFI_STATE_SEND_CIPCLOSE;
+            
          }
          if (nonBlockingDelayRead(&wifiComDelay)) {
             nonBlockingDelayWrite(&wifiComDelay, DELAY_5_SECONDS);
             wifiComState = WIFI_STATE_SEND_CIPSEND;
          }
+         verif=LOW;
       break;
 
       case WIFI_STATE_SEND_CIPCLOSE:
@@ -500,9 +504,9 @@ static bool isExpectedResponse()
 
 void wifiComWebPageDataUpdate()
 {
-    printf("Antes de sprintf de temperatura\n");
-    sprintf( htmlCodeBody, "%c Temperature: %d", 
-             BEGIN_USER_LINE, temperatureSensorReadCelsius(), END_USER_LINE );
+    int temperature = (int)(temperatureSensorReadCelsius() * 100);
+    sprintf( htmlCodeBody, "%s Temperature: %d.%02d &ordm;C %s", 
+         BEGIN_USER_LINE, temperature / 100, temperature % 100, END_USER_LINE );
 
     
     sprintf( htmlCodeBody + len(htmlCodeBody), 

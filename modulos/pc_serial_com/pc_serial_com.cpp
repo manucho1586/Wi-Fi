@@ -11,7 +11,8 @@
 
 //=====[Declaration of private data types]=====================================
 
-typedef enum{
+typedef enum
+{
     PC_SERIAL_GET_FILE_NAME,
     PC_SERIAL_COMMANDS,
     PC_SERIAL_GET_CODE,
