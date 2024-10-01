@@ -24,7 +24,7 @@ typedef struct{
 void tickInit();
 
 void nonBlockingDelayInit( nonBlockingDelay_t* delay, tick_t durationValue );
-bool nonBlockingDelayRead( nonBlockingDelay_t* delay );
+bool nonBlockingDelayRead( nonBlockingDelay_t* delay);
 void nonBlockingDelayWrite( nonBlockingDelay_t* delay, tick_t durationValue );
 
 //=====[#include guards - end]=================================================

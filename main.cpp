@@ -21,6 +21,7 @@ void smartHomeSystemUpdate();
 
 int main()
 {
+    //boton_ventilador.mode(PullUp);
     smartHomeSystemInit();
     while (true) 
     {

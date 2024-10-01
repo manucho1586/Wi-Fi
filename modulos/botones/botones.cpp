@@ -7,7 +7,7 @@ Ticker ticker2;  //Instanciación de variable tipo Ticker para manejar la funci�
 DigitalOut buzzer(D5);  //Tengo que ver porque aca esta el LED de depuración de wifi
 DigitalOut ventilador(D4);
 DigitalIn boton_buzzer(BUTTON1); 
-DigitalIn boton_ventilador(D6); 
+DigitalIn boton_ventilador(D6);
  //************************************************************************************************//
 
  // *********Variables de debounce*****************************************************************//
@@ -42,11 +42,11 @@ void check_boton_buzzer()
 // ******Deteccion de estado y activacion/desactivacion de ventilador******************************//
 void check_boton_ventilador() 
 {
-    if (boton_ventilador == 0) {                            // Botón presionado
+    if (boton_ventilador != 0) {                            // Botón presionado
         if (checking2) {
             cont2++;
             if (cont2 >= 150) {
-                ventilador = !ventilador;                   // Alternar el estado del buzzer
+                ventilador=!ventilador;                   // Alternar el estado del buzzer
                 cont2 = 0;                                  // Reiniciar el contador
                 checking2 = false;                          // Dejar de chequear
             }

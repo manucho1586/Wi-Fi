@@ -215,9 +215,9 @@ void wifiComUpdate()
       case WIFI_STATE_SEND_CWJAP_SET:
          if (nonBlockingDelayRead(&wifiComDelay)) {
             wifiComStringWrite( "AT+CWJAP=\"" );
-            wifiComStringWrite( "Red_INVITADOS");
+            wifiComStringWrite( "Santi 2.4 Ghz");
             wifiComStringWrite( "\",\"" );
-            wifiComStringWrite( "1nVit4d0ss");
+            wifiComStringWrite( "tangoyfrida");
             wifiComStringWrite( "\"" );
             wifiComStringWrite( "\r\n" );
             wifiComExpectedResponse = responseCwjap1;
@@ -505,12 +505,12 @@ static bool isExpectedResponse()
 void wifiComWebPageDataUpdate()
 {
     int temperature = (int)(temperatureSensorReadCelsius() * 100);
-    sprintf( htmlCodeBody, "%s Temperature: %d.%02d &ordm;C %s", 
+    sprintf( htmlCodeBody, "%s Temperatura: %d.%02d &ordm;C %s", 
          BEGIN_USER_LINE, temperature / 100, temperature % 100, END_USER_LINE );
 
     
     sprintf( htmlCodeBody + len(htmlCodeBody), 
-             "%s Over temperature detected: %s %s", BEGIN_USER_LINE, 
+             "%s Sobre temperatura detectada: %s %s", BEGIN_USER_LINE, 
              stateToString( overTemperatureDetectorStateRead() ), END_USER_LINE );
 }
 
